@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(MinecraftClone LANGUAGES C CXX)
+project(LearnOpenGL LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,20 +18,20 @@ add_subdirectory(external/glfw)
 
 find_package(OpenGL REQUIRED)
 
-add_executable(MinecraftClone 
+add_executable(LearnOpenGL 
     src/main.cpp
     src/glad.c
 )
 
-target_include_directories(MinecraftClone PRIVATE 
+target_include_directories(LearnOpenGL PRIVATE 
     include
     external
 )
 
-target_link_libraries(MinecraftClone PRIVATE 
+target_link_libraries(LearnOpenGL PRIVATE 
     OpenGL::GL
     glfw
     ${CMAKE_DL_LIBS}
 )
 
-install(TARGETS MinecraftClone RUNTIME DESTINATION bin)
+install(TARGETS LearnOpenGL RUNTIME DESTINATION bin)
