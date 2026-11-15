@@ -99,6 +99,20 @@ unsigned int getShaderProgram() {
     return shaderProgramId;
 }
 
+unsigned int getVertexBufferObject() {
+    unsigned int vertexBufferObjectId;
+    glGenBuffers(1, &vertexBufferObjectId);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
+    return vertexBufferObjectId;
+}
+
+unsigned int getVertexArrayObject() {
+    unsigned int vertexArrayObjectId;
+    glGenVertexArrays(1, &vertexArrayObjectId);
+    glBindVertexArray(vertexArrayObjectId);
+    return vertexArrayObjectId;
+}
+
 int main() {
     GLFWwindow *window;
     try {
@@ -108,15 +122,10 @@ int main() {
         return -1;
     }
 
-    unsigned int vertexBufferObjectId;
-    glGenBuffers(1, &vertexBufferObjectId);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
-
+    unsigned int vertexBufferObjectId = getVertexBufferObject();
     unsigned int shaderProgramId = getShaderProgram();
+    unsigned int vertexArrayObjectId = getVertexArrayObject();
 
-    unsigned int vertexArrayObjectId;
-    glGenVertexArrays(1, &vertexArrayObjectId);
-    glBindVertexArray(vertexArrayObjectId);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
     glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
