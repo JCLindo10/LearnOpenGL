@@ -32,29 +32,27 @@ const char *fragmentShaderSource = "#version 330 core\n"
     "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\0";
 
-void getGLFWWindow(GLFWwindow* &window, int width, int height, const char* title) {
+GLFWwindow* createGlfwWindow(int width, int height, const char* title) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(width, height, title, NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
 
     if (window == NULL) {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        exit(-1);
+        throw std::runtime_error("Failed to create GLFW window");
     }
 
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        glfwTerminate();
-        exit(-1);
+        throw std::runtime_error("Failed to initialize GLAD");
     }
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    return window;
 }
 
 unsigned int getShaderProgram() {
@@ -105,7 +103,12 @@ unsigned int getShaderProgram() {
 
 int main() {
     GLFWwindow *window;
-    getGLFWWindow(window, 800, 600, "LearnOpenGL");
+    try {
+        window = createGlfwWindow(800, 600, "LearnOpenGL");
+    } catch (const std::runtime_error& e) {
+        std::cerr << e.what() << std::endl;
+        return -1;
+    }
 
     unsigned int vertexBufferObjectId;
     glGenBuffers(1, &vertexBufferObjectId);
