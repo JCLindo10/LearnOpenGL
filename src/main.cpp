@@ -56,15 +56,7 @@ void getGLFWWindow(GLFWwindow* &window, int width, int height, const char* title
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 }
 
-int main() {
-    GLFWwindow *window;
-    getGLFWWindow(window, 800, 600, "LearnOpenGL");
-
-    uint vertexBufferObjectId;
-    glGenBuffers(1, &vertexBufferObjectId);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices.data(), GL_STATIC_DRAW);
-
+uint getShaderProgram() {
     uint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
@@ -82,19 +74,33 @@ int main() {
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
 
-    uint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
+    uint shaderProgramId = glCreateProgram();
+    glAttachShader(shaderProgramId, vertexShader);
+    glAttachShader(shaderProgramId, fragmentShader);
+    glLinkProgram(shaderProgramId);
 
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &success);
     if (!success) {
-        glGetProgramInfoLog(shaderProgram, infoLogSize, NULL, infoLog);
+        glGetProgramInfoLog(shaderProgramId, infoLogSize, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }   
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+    return shaderProgramId;
+}
+
+int main() {
+    GLFWwindow *window;
+    getGLFWWindow(window, 800, 600, "LearnOpenGL");
+
+    uint vertexBufferObjectId;
+    glGenBuffers(1, &vertexBufferObjectId);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices.data(), GL_STATIC_DRAW);
+
+    uint shaderProgramId = getShaderProgram();
 
     uint vertexArrayObjectId;
     glGenVertexArrays(1, &vertexArrayObjectId);
@@ -109,7 +115,7 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgram);
+        glUseProgram(shaderProgramId);
         glBindVertexArray(vertexArrayObjectId);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glfwSwapBuffers(window);
