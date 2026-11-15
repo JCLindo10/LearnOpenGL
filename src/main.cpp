@@ -113,6 +113,13 @@ unsigned int getVertexArrayObject() {
     return vertexArrayObjectId;
 }
 
+void bindTriangleVertices(unsigned int vertexBufferObjectId) {
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+}
+
 int main() {
     GLFWwindow *window;
     try {
@@ -126,10 +133,7 @@ int main() {
     unsigned int shaderProgramId = getShaderProgram();
     unsigned int vertexArrayObjectId = getVertexArrayObject();
 
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    bindTriangleVertices(vertexBufferObjectId);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
