@@ -50,14 +50,15 @@ void getGLFWWindow(GLFWwindow* &window, int width, int height, const char* title
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
+        glfwTerminate();
         exit(-1);
     }
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 }
 
-uint getShaderProgram() {
-    uint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+unsigned int getShaderProgram() {
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
 
@@ -68,13 +69,22 @@ uint getShaderProgram() {
     if (!success) {
         glGetShaderInfoLog(vertexShader, infoLogSize, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        glfwTerminate();
+        exit(-1);
     }
 
-    uint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(fragmentShader, infoLogSize, NULL, infoLog);
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        glfwTerminate();
+        exit(-1);
+    }
 
-    uint shaderProgramId = glCreateProgram();
+    unsigned int shaderProgramId = glCreateProgram();
     glAttachShader(shaderProgramId, vertexShader);
     glAttachShader(shaderProgramId, fragmentShader);
     glLinkProgram(shaderProgramId);
@@ -83,6 +93,8 @@ uint getShaderProgram() {
     if (!success) {
         glGetProgramInfoLog(shaderProgramId, infoLogSize, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        glfwTerminate();
+        exit(-1);
     }   
 
     glDeleteShader(vertexShader);
@@ -95,14 +107,13 @@ int main() {
     GLFWwindow *window;
     getGLFWWindow(window, 800, 600, "LearnOpenGL");
 
-    uint vertexBufferObjectId;
+    unsigned int vertexBufferObjectId;
     glGenBuffers(1, &vertexBufferObjectId);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices.data(), GL_STATIC_DRAW);
 
-    uint shaderProgramId = getShaderProgram();
+    unsigned int shaderProgramId = getShaderProgram();
 
-    uint vertexArrayObjectId;
+    unsigned int vertexArrayObjectId;
     glGenVertexArrays(1, &vertexArrayObjectId);
     glBindVertexArray(vertexArrayObjectId);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
