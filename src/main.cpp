@@ -16,7 +16,7 @@ void processInput(GLFWwindow *window) {
 }
 
 // First thing we wanna draw :)
-std::array<float, 9> triangleVertices = {
+std::array<float, 9> vertices = {
     -0.5, -0.5, 0.0,
      0.5, -0.5, 0.0,
      0.0,  0.5, 0.0
@@ -113,9 +113,9 @@ unsigned int getVertexArrayObject() {
     return vertexArrayObjectId;
 }
 
-void bindTriangleVertices(unsigned int vertexBufferObjectId) {
+void bindVertices(unsigned int vertexBufferObjectId) {
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 }
@@ -133,7 +133,7 @@ int main() {
     unsigned int shaderProgramId = getShaderProgram();
     unsigned int vertexArrayObjectId = getVertexArrayObject();
 
-    bindTriangleVertices(vertexBufferObjectId);
+    bindVertices(vertexBufferObjectId);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
