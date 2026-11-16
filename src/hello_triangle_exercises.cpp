@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <iostream>
 
-int main() {
+int exercise1() {
     GLFWwindow *window;
     try {
         window = createGlfwWindow(800, 600, "LearnOpenGLExercises");
@@ -52,5 +52,11 @@ int main() {
         glfwPollEvents();
     }
 
+    return 0;
+
+}
+
+int main() {
+    (void)exercise1();
     return 0;
 }
