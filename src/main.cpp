@@ -8,12 +8,6 @@
     
 static const size_t INFO_LOG_SIZE = 512;
 
-void processInput(GLFWwindow *window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
-    }
-}
-
 // First thing we wanna draw :)
 // std::array<float, 9> vertices = {
 //     -0.5, -0.5, 0.0,
