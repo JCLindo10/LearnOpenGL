@@ -40,6 +40,7 @@ target_link_libraries(LearnOpenGL PRIVATE
 add_executable(hello_triangle_exercises
     src/window.cpp
     src/shader.cpp
+    src/vertex.cpp
     src/hello_triangle_exercises.cpp
     src/glad.c
 )
