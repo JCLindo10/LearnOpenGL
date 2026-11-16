@@ -32,18 +32,11 @@ std::array<unsigned int, 6> indices = {
     1, 2, 3
 };
 
-unsigned int getVertexBufferObject() {
-    unsigned int vertexBufferObjectId;
-    glGenBuffers(1, &vertexBufferObjectId);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
-    return vertexBufferObjectId;
-}
-
-unsigned int getElementBufferObject() {
-    unsigned int elementBufferObjectId;
-    glGenBuffers(1, &elementBufferObjectId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObjectId);
-    return elementBufferObjectId;
+unsigned int createBuffer(GLenum bufferType) {
+    unsigned int bufferId;
+    glGenBuffers(1, &bufferId);
+    glBindBuffer(bufferType, bufferId);
+    return bufferId;
 }
 
 unsigned int getVertexArrayObject() {
@@ -79,10 +72,10 @@ int main() {
         return -1;
     }
 
-    unsigned int vertexBufferObjectId = getVertexBufferObject();
+    unsigned int vertexBufferObjectId = createBuffer(GL_ARRAY_BUFFER);
     unsigned int shaderProgramId = getShaderProgram();
     unsigned int vertexArrayObjectId = getVertexArrayObject();
-    unsigned int elementBufferObjectId = getElementBufferObject();
+    unsigned int elementBufferObjectId = createBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
     // bindVertices(vertexBufferObjectId);
     bindVertices(vertexBufferObjectId, elementBufferObjectId);
