@@ -18,6 +18,7 @@ int main() {
     unsigned int vertexBufferObjectId = createBuffer();
     unsigned int shaderProgramId = getShaderProgram();
     unsigned int vertexArrayObjectId = createVertexArray();
+    unsigned int elementBufferObjectId = createBuffer();
 
     std::array<float, 9> vertices = {
         0.5,  0.5, 0.0,
@@ -28,7 +29,7 @@ int main() {
         0, 1, 2
     };
 
-    bindVertices(vertexBufferObjectId, vertexArrayObjectId, vertices, indices);
+    bindVertices(vertexBufferObjectId, elementBufferObjectId, vertices, indices);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
