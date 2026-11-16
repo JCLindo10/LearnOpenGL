@@ -19,6 +19,7 @@ add_subdirectory(external/glfw)
 find_package(OpenGL REQUIRED)
 
 add_executable(LearnOpenGL 
+    src/window.cpp
     src/main.cpp
     src/glad.c
 )
@@ -35,11 +36,13 @@ target_link_libraries(LearnOpenGL PRIVATE
 )
 
 add_executable(hello_triangle_exercises
+    src/window.cpp
     src/hello_triangle_exercises.cpp
     src/glad.c
 )
 
 target_include_directories(hello_triangle_exercises PRIVATE
+    include
     external
 )
 
