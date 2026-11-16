@@ -38,7 +38,7 @@ unsigned int createBuffer() {
     return bufferId;
 }
 
-unsigned int getVertexArrayObject() {
+unsigned int createVertexArray() {
     unsigned int vertexArrayObjectId;
     glGenVertexArrays(1, &vertexArrayObjectId);
     glBindVertexArray(vertexArrayObjectId);
@@ -66,7 +66,7 @@ int main() {
 
     unsigned int vertexBufferObjectId = createBuffer();
     unsigned int shaderProgramId = getShaderProgram();
-    unsigned int vertexArrayObjectId = getVertexArrayObject();
+    unsigned int vertexArrayObjectId = createVertexArray();
     unsigned int elementBufferObjectId = createBuffer();
 
     // bindVertices(vertexBufferObjectId);
