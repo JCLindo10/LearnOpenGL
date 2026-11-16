@@ -32,10 +32,9 @@ std::array<unsigned int, 6> indices = {
     1, 2, 3
 };
 
-unsigned int createBuffer(GLenum bufferType) {
+unsigned int createBuffer() {
     unsigned int bufferId;
     glGenBuffers(1, &bufferId);
-    glBindBuffer(bufferType, bufferId);
     return bufferId;
 }
 
@@ -44,13 +43,6 @@ unsigned int getVertexArrayObject() {
     glGenVertexArrays(1, &vertexArrayObjectId);
     glBindVertexArray(vertexArrayObjectId);
     return vertexArrayObjectId;
-}
-
-void bindVertices(unsigned int vertexBufferObjectId) {
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
 }
 
 void bindVertices(unsigned int vertexBufferObjectId, unsigned int elementBufferObjectId) {
@@ -72,10 +64,10 @@ int main() {
         return -1;
     }
 
-    unsigned int vertexBufferObjectId = createBuffer(GL_ARRAY_BUFFER);
+    unsigned int vertexBufferObjectId = createBuffer();
     unsigned int shaderProgramId = getShaderProgram();
     unsigned int vertexArrayObjectId = getVertexArrayObject();
-    unsigned int elementBufferObjectId = createBuffer(GL_ELEMENT_ARRAY_BUFFER);
+    unsigned int elementBufferObjectId = createBuffer();
 
     // bindVertices(vertexBufferObjectId);
     bindVertices(vertexBufferObjectId, elementBufferObjectId);
