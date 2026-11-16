@@ -20,13 +20,17 @@ int main() {
     unsigned int vertexArrayObjectId = createVertexArray();
     unsigned int elementBufferObjectId = createBuffer();
 
-    std::array<float, 9> vertices = {
-        0.5,  0.5, 0.0,
-        0.5, -0.5, 0.0,
-        -1.5, -0.5, 0.0
+    std::array<float, 18> vertices = {
+        -0.25,  -0.25, 0.0,
+        -0.25, 0.25, 0.0,
+        0.25, 0.25, 0.0,
+        .25,  -.25, 0.0,
+        .830, -.75, 0.0,
+        .00, -.75, 0.0
     };
-    std::array<unsigned int, 3> indices = {
-        0, 1, 2
+    std::array<unsigned int, 6> indices = {
+        0, 1, 2,
+        3, 4, 5
     };
 
     bindVertices(vertexBufferObjectId, elementBufferObjectId, vertices, indices);
@@ -40,6 +44,7 @@ int main() {
         glBindVertexArray(vertexArrayObjectId);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 3, 3);
 
         glBindVertexArray(0);
 
