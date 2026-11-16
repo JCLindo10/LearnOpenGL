@@ -34,4 +34,19 @@ target_link_libraries(LearnOpenGL PRIVATE
     ${CMAKE_DL_LIBS}
 )
 
-install(TARGETS LearnOpenGL RUNTIME DESTINATION bin)
+add_executable(hello_triangle_exercises
+    src/hello_triangle_exercises.cpp
+    src/glad.c
+)
+
+target_include_directories(hello_triangle_exercises PRIVATE
+    external
+)
+
+target_link_libraries(hello_triangle_exercises PRIVATE
+    OpenGL::GL
+    glfw
+    ${CMAKE_DL_LIBS}
+)
+
+install(TARGETS LearnOpenGL hello_triangle_exercises RUNTIME DESTINATION bin)
