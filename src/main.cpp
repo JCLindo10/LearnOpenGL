@@ -6,15 +6,6 @@
 #include "window.h"
 #include "shader.h"
     
-static const size_t INFO_LOG_SIZE = 512;
-
-// First thing we wanna draw :)
-// std::array<float, 9> vertices = {
-//     -0.5, -0.5, 0.0,
-//      0.5, -0.5, 0.0,
-//      0.0,  0.5, 0.0
-// };
-
 unsigned int createBuffer() {
     unsigned int bufferId;
     glGenBuffers(1, &bufferId);
