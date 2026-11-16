@@ -23,6 +23,7 @@ add_executable(LearnOpenGL
     src/shader.cpp
     src/main.cpp
     src/glad.c
+    src/vertex.cpp
 )
 
 target_include_directories(LearnOpenGL PRIVATE 
