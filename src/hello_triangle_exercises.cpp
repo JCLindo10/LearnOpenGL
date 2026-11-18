@@ -131,5 +131,6 @@ int main() {
     (void)exercise1();
     exercise2();
     exercise3();
+    glfwTerminate();
     return 0;
 }
