@@ -68,10 +68,8 @@ void exercise2() {
     }
 
     unsigned int leftTriangleVertexBufferObjectId = createBuffer();
-    unsigned int rightTriangleVertexBufferObjectId = createBuffer();
-    unsigned int shaderProgramId = getShaderProgram();
+    unsigned int leftTriangleElementBufferObjectId = createBuffer();
     unsigned int leftTriangleVertexArrayObjectId = createVertexArray();
-    unsigned int rightTriangleVertexArrayObjectId = createVertexArray();
 
     std::array<float, 9> leftTriangleVertices = {
         -0.25,  -0.25, 0.0,
@@ -82,7 +80,25 @@ void exercise2() {
         0, 1, 2
     };
 
-    bindVertices(leftTriangleVertexBufferObjectId, leftTriangleVertexArrayObjectId, leftTriangleVertices, leftTriangleIndices);
+    bindVertices(leftTriangleVertexBufferObjectId, leftTriangleElementBufferObjectId, leftTriangleVertices, leftTriangleIndices);
+
+    unsigned int rightTriangleVertexBufferObjectId = createBuffer();
+    unsigned int rightTriangleElementBufferObjectId = createBuffer();
+    unsigned int rightTriangleVertexArrayObjectId = createVertexArray();
+
+    std::array<float, 9> rightTriangleVertices = {
+        .25,  -.25, 0.0,
+        .830, -.75, 0.0,
+        .00, -.75, 0.0
+    };
+
+    std::array<unsigned int, 3> rightTriangleIndices = {
+        0, 1, 2
+    };
+
+    bindVertices(rightTriangleVertexBufferObjectId, rightTriangleElementBufferObjectId, rightTriangleVertices, rightTriangleIndices);
+
+    unsigned int shaderProgramId = getShaderProgram();
 
 
     while (!glfwWindowShouldClose(window)) {
@@ -96,9 +112,9 @@ void exercise2() {
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
 
-        // glBindVertexArray(rightTriangleVertexArrayObjectId);
-        // glDrawArrays(GL_TRIANGLES, 0, 3);
-        // glBindVertexArray(0);
+        glBindVertexArray(rightTriangleVertexArrayObjectId);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
