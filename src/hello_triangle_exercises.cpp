@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <iostream>
 
+// Display two triangles by adding vertices to the buffer
 int exercise1() {
     GLFWwindow *window;
     try {
@@ -56,7 +57,20 @@ int exercise1() {
 
 }
 
+// Display two triangles next to each other with separate VAO and VBO
+void exercise2() {
+    
+}
+
+// Create two separate shader programs. One will use a different fragment shader that outputs the color yellow.
+// Draw both triangles again, one of them being yellow
+void exercise3() {
+    
+}
+
 int main() {
     (void)exercise1();
+    exercise2();
+    exercise3();
     return 0;
 }
