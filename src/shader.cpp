@@ -1,8 +1,7 @@
 #include "shader.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
 #include <stdexcept>
+#include <fstream>
 
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -18,7 +17,7 @@ const char *fragmentShaderSource = "#version 330 core\n"
 
 static const int INFO_LOG_SIZE = 512;
 
-void compileShader(unsigned int shaderId, const char* shaderSourceCode, GLenum shaderType) {
+void compileShader(unsigned int shaderId, const char* shaderSourceCode, const GLenum shaderType) {
     glShaderSource(shaderId, 1, &shaderSourceCode, NULL);
     glCompileShader(shaderId);
 
@@ -58,4 +57,59 @@ unsigned int getShaderProgram() {
     glDeleteShader(fragmentShader);
 
     return shaderProgramId;
+}
+
+unsigned int linkShaderProgram(const std::initializer_list<unsigned int> shaderIds) {
+
+    unsigned int shaderProgramId = glCreateProgram();
+    for (auto shaderId : shaderIds) {
+        glAttachShader(shaderProgramId, shaderId);
+    }
+
+    glLinkProgram(shaderProgramId);
+
+    int success;
+    glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &success);
+
+    if (!success) {
+        char infoLog[512];
+        glGetProgramInfoLog(shaderProgramId, 512, nullptr, infoLog);
+        std::string errorMsg = "Couldn't link shaders:\n   " + std::string(infoLog);
+        throw std::runtime_error(errorMsg);
+    }
+
+    return shaderProgramId;
+}
+
+std::string getSource(const std::string &filepath) {
+
+    std::ifstream file(filepath);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("Error: Could not open file" + filepath);
+    }
+
+    std::string sourceCode = "";
+    std::string line;
+    while (std::getline(file, line)) {
+        sourceCode.append(line);
+    }
+
+    return sourceCode;
+
+}
+
+unsigned int getShaderProgram(const std::string vertexShaderPath, const std::string fragmentShaderPath) {
+    // Not being able to compile/link shaders would be fatal anyway, just let it die
+
+    std::string vertexSource = getSource(vertexShaderPath);
+    std::string fragmentSource = getSource(fragmentShaderPath);
+
+    unsigned int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+    unsigned int fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+
+    compileShader(vertexShaderId, vertexSource.c_str(), GL_VERTEX_SHADER);
+    compileShader(fragmentShaderId, fragmentSource.c_str(), GL_FRAGMENT_SHADER);
+
+    return linkShaderProgram({vertexShaderId, fragmentShaderId});
 }
