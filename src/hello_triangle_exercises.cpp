@@ -59,7 +59,50 @@ int exercise1() {
 
 // Display two triangles next to each other with separate VAO and VBO
 void exercise2() {
-    
+    GLFWwindow *window;
+    try {
+        window = createGlfwWindow(800, 600, "LearnOpenGLExercises");
+    } catch (const std::runtime_error& e) {
+        std::cerr << e.what() << std::endl;
+        return;
+    }
+
+    unsigned int leftTriangleVertexBufferObjectId = createBuffer();
+    unsigned int rightTriangleVertexBufferObjectId = createBuffer();
+    unsigned int shaderProgramId = getShaderProgram();
+    unsigned int leftTriangleVertexArrayObjectId = createVertexArray();
+    unsigned int rightTriangleVertexArrayObjectId = createVertexArray();
+
+    std::array<float, 9> leftTriangleVertices = {
+        -0.25,  -0.25, 0.0,
+        -0.25, 0.25, 0.0,
+        0.25, 0.25, 0.0
+    };
+    std::array<unsigned int, 3> leftTriangleIndices = {
+        0, 1, 2
+    };
+
+    bindVertices(leftTriangleVertexBufferObjectId, leftTriangleVertexArrayObjectId, leftTriangleVertices, leftTriangleIndices);
+
+
+    while (!glfwWindowShouldClose(window)) {
+        processInput(window);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(shaderProgramId);
+
+        glBindVertexArray(leftTriangleVertexArrayObjectId);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
+
+        // glBindVertexArray(rightTriangleVertexArrayObjectId);
+        // glDrawArrays(GL_TRIANGLES, 0, 3);
+        // glBindVertexArray(0);
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
 }
 
 // Create two separate shader programs. One will use a different fragment shader that outputs the color yellow.
