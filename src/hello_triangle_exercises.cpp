@@ -163,18 +163,21 @@ void exercise3() {
 
     bindVertices(rightTriangleVertexBufferObjectId, rightTriangleElementBufferObjectId, rightTriangleVertices, rightTriangleIndices);
 
-    unsigned int shaderProgramId = getShaderProgram("/home/jake/code/learn_opengl/src/vertex.vert", "/home/jake/code/learn_opengl/src/pink_shader.frag");
+    unsigned int yellowShaderId = getShaderProgram();
+    unsigned int pinkShaderId = getShaderProgram("/home/jake/code/learn_opengl/src/vertex.vert", "/home/jake/code/learn_opengl/src/pink_shader.frag");
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgramId);
+        glUseProgram(yellowShaderId);
 
         glBindVertexArray(leftTriangleVertexArrayObjectId);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
+
+        glUseProgram(pinkShaderId);
 
         glBindVertexArray(rightTriangleVertexArrayObjectId);
         glDrawArrays(GL_TRIANGLES, 0, 3);
