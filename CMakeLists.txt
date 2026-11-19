@@ -56,4 +56,23 @@ target_link_libraries(hello_triangle_exercises PRIVATE
     ${CMAKE_DL_LIBS}
 )
 
-install(TARGETS LearnOpenGL hello_triangle_exercises RUNTIME DESTINATION bin)
+add_executable(chapter6
+    src/window.cpp
+    src/shader.cpp
+    src/vertex.cpp
+    src/glad.c
+    src/chapter6.cpp
+)
+
+target_include_directories(chapter6 PRIVATE
+    include
+    external
+)
+
+target_link_libraries(chapter6 PRIVATE
+    OpenGL::GL
+    glfw
+    ${CMAKE_DL_LIBS}
+)
+
+install(TARGETS LearnOpenGL hello_triangle_exercises chapter6 RUNTIME DESTINATION bin)
