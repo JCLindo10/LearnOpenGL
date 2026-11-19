@@ -93,6 +93,7 @@ std::string getSource(const std::string &filepath) {
     std::string line;
     while (std::getline(file, line)) {
         sourceCode.append(line);
+        sourceCode.append("\n");
     }
 
     return sourceCode;
