@@ -35,7 +35,7 @@ void redTriangle() {
         glUseProgram(redShaderId);
         glBindVertexArray(vertexArrayObjectId);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);
