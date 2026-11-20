@@ -26,7 +26,7 @@ void redTriangle() {
 
     bindVertices(vertexBufferObjectId, elementBufferObjectId, vertices, indices);
 
-    unsigned int redShaderId = getShaderProgram("/home/jake/code/learn_opengl/src/color_chooser.vert", "/home/jake/code/learn_opengl/src/color_chooser.frag");
+    unsigned int redShaderId = getShaderProgram("/home/jake/code/learn_opengl/src/shaders/color_chooser.vert", "/home/jake/code/learn_opengl/src/shaders/color_chooser.frag");
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -74,7 +74,7 @@ void uniform() {
 
     bindVertices(vertexBufferObjectId, elementBufferObjectId, vertices, indices);
 
-    unsigned int redShaderId = getShaderProgram("/home/jake/code/learn_opengl/src/color_chooser.vert", "/home/jake/code/learn_opengl/src/uniform.frag");
+    unsigned int redShaderId = getShaderProgram("/home/jake/code/learn_opengl/src/shaders/color_chooser.vert", "/home/jake/code/learn_opengl/src/shaders/uniform.frag");
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -125,7 +125,7 @@ void colorPerVertex() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    unsigned int shaderProgramId = getShaderProgram("/home/jake/code/learn_opengl/src/per_vertex.vert", "/home/jake/code/learn_opengl/src/per_vertex.frag");
+    unsigned int shaderProgramId = getShaderProgram("/home/jake/code/learn_opengl/src/shaders/per_vertex.vert", "/home/jake/code/learn_opengl/src/shaders/per_vertex.frag");
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
