@@ -147,6 +147,17 @@ void colorPerVertex() {
 
 }
 
+void translateVerticesRight(GLenum shaderProgramId, float amount) {
+    int positionTransformLocation = glGetUniformLocation(shaderProgramId, "positionOffset");
+
+    if (positionTransformLocation == -1) { // Uniform DNE
+        return;
+    }
+
+    glUseProgram(shaderProgramId);
+    glUniform3f(positionTransformLocation, amount, 0.0, 0.0f);
+}
+
 void exercises(const std::string vertexShaderPath, const std::string fragmentShaderPath) {
     GLFWwindow *window = createGlfwWindow(800, 600, "Exercise 1");
 
@@ -182,6 +193,7 @@ void exercises(const std::string vertexShaderPath, const std::string fragmentSha
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgramId);
+        translateVerticesRight(shaderProgramId, 0.50);
 
         glBindVertexArray(vertexArrayObjectId);
 
