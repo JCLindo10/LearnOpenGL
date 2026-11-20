@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -113,4 +115,25 @@ unsigned int getShaderProgram(const std::string vertexShaderPath, const std::str
     compileShader(fragmentShaderId, fragmentSource.c_str(), GL_FRAGMENT_SHADER);
 
     return linkShaderProgram({vertexShaderId, fragmentShaderId});
+}
+
+Shader::Shader(const std::string vertexPath, const std::string fragmentPath) {
+    programId = getShaderProgram(vertexPath, fragmentPath);
+}
+
+void Shader::use() {
+    glUseProgram(programId);
+}
+
+void Shader::setBool(const std::string &name, bool value) const {
+    glUniform1i(glGetUniformLocation(programId, name.c_str()), (int)value);
+}
+
+void Shader::setInt(const std::string &name, int value) const {
+    glUniform1i(glGetUniformLocation(programId, name.c_str()), value);
+}
+
+void Shader::setFloat(const std::string &name, float value) const {
+    glUniform1f(glGetUniformLocation(programId, name.c_str()), value);
+
 }
