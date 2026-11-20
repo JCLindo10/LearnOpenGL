@@ -5,6 +5,7 @@
 #include "window.h"
 #include "shader.h"
 #include "vertex.h"
+#include <cmath>
     
 void redTriangle() {
     GLFWwindow *window = createGlfwWindow(800, 600, "Chapter 6"); // If this fails, we die anyway
@@ -45,9 +46,61 @@ void redTriangle() {
     glfwTerminate();
 
 }
+
+void transformColorWithTime(GLenum shaderProgramId, float speed) {
+    float currentTime = glfwGetTime();
+    float greenValue = (sin(currentTime) / 2.0f) + 0.5f;
+    int vertexColorLocation = glGetUniformLocation(shaderProgramId, "ourColor");
+    glUseProgram(shaderProgramId);
+    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+}
+
+void uniform() {
+    GLFWwindow *window = createGlfwWindow(800, 600, "Uniform");
+
+    unsigned int vertexBufferObjectId = createBuffer();
+    unsigned int vertexArrayObjectId = createVertexArray();
+    unsigned int elementBufferObjectId = createBuffer();
+
+    std::array<float, 9> vertices = {
+         0.0, 0.5, 0.0,
+         0.5, -0.5, 0.0,
+        -0.5, -0.5, 0.0
+    };
+
+    std::array<unsigned int, 3> indices = {
+        0, 1, 2,
+    };
+
+    bindVertices(vertexBufferObjectId, elementBufferObjectId, vertices, indices);
+
+    unsigned int redShaderId = getShaderProgram("/home/jake/code/learn_opengl/src/color_chooser.vert", "/home/jake/code/learn_opengl/src/uniform.frag");
+
+    while (!glfwWindowShouldClose(window)) {
+        processInput(window);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(redShaderId);
+
+        transformColorWithTime(redShaderId, 1.0f);
+
+        glBindVertexArray(vertexArrayObjectId);
+
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+
+}
     
 int main() {
     redTriangle();
+    uniform();
 
     return 0;
 }
